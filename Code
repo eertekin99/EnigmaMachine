@@ -1,0 +1,371 @@
+package com.company;
+
+import com.sun.xml.internal.ws.util.StringUtils;
+
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+
+        /*
+
+        String test1 = "We will meet at 9 pm.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+        String test1 = "This was gun.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+
+        String test1 = "This is true statement.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+
+        String test1 = "My gun was broken.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+
+        String test1 = "I am killing the man.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+        String test1 = "Were you mad? No.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+         */
+
+        String test1 = "These are a True statements.";
+        String a1 = alteration1(test1);
+        String a2 = alteration2(a1);
+        String a3 = alteration3(a2);
+        String a4 = alteration4(a3);
+        String a5 = alteration5(a4);
+        String res = alteration6(a5);
+        System.out.println(res);
+
+        /*
+        String test1 = "We will meet at 9 pm.";
+        System.out.println(alteration2(test1));
+
+        String test2 = "This was gun.";
+        System.out.println(alteration2(test2));
+
+        String test3 = "This is a true statement.";
+        System.out.println(alteration3(test3));
+
+        String test4 = "My gun was broken.";
+        System.out.println(alteration4(test4));
+
+        String test5 = "I do kill the man.";
+        System.out.println(alteration5(test5));
+
+        String test6 = "Were you mad? Yes.";
+        System.out.println(alteration6(test6));
+
+        String test6_1 = "Were you mad? No.";
+        System.out.println(alteration6(test6_1));*/
+    }
+
+    public static String alteration1(String text){
+
+        Pattern pattern = Pattern.compile("[0-9]+ pm", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(text);
+        boolean matchFound = matcher.find();
+
+        Pattern pattern1 = Pattern.compile("[0-9]+ am", Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = pattern1.matcher(text);
+        boolean matchFound1 = matcher1.find();
+
+
+        if(matchFound) {
+            text = matcher.replaceAll(matcher.group().replaceFirst(" pm"," am"));
+        }
+
+        if(matchFound1){
+            text = matcher1.replaceAll(matcher1.group().replaceFirst(" am"," pm"));
+        }
+
+    //////////////////////////////////////////////////////////////
+
+        //In the pattern, we are trying to find clock's digit part.
+        Pattern pattern2 = Pattern.compile("[0-9]+");
+        Matcher matcher2 = pattern2.matcher(text);
+
+        boolean matchFound2 = matcher2.find();
+
+        //matcher2 which gives us a clock's digit part.
+        //We get that as an integer and afterwards we decrease(-1) its number.
+        //To have decrypted version of clock.
+
+        if(matchFound2) {
+            int a = Integer.parseInt(matcher2.group(0));
+            text = matcher2.replaceAll(String.valueOf(a-1));
+        }
+
+        return text;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String alteration2(String text){
+
+        Pattern pattern = Pattern.compile("(These) (are) (.*s)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(text);
+        //Checks whether match is found or not with boolean.
+        boolean matchFound = matcher.find();
+
+
+        Pattern pattern2 = Pattern.compile("(This) (is) (.*[A-Za-z])", Pattern.CASE_INSENSITIVE); //This is gun.
+        Matcher matcher2 = pattern2.matcher(text);
+        //Checks whether match is found or not with boolean.
+        boolean matchFound2 = matcher2.find();
+
+
+        Pattern pattern3 = Pattern.compile("(These) (were) (.*s)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher3 = pattern3.matcher(text);
+        //Checks whether match is found or not with boolean.
+        boolean matchFound3 = matcher3.find();
+
+
+        Pattern pattern4 = Pattern.compile("(This) (was) (.*[A-Za-z])", Pattern.CASE_INSENSITIVE);
+        Matcher matcher4 = pattern4.matcher(text);
+        //Checks whether match is found or not with boolean.
+        boolean matchFound4 = matcher4.find();
+
+
+        if(matchFound) {
+            text = matcher.replaceAll("This is "+matcher.group(3).replaceFirst(".$",""));
+            return text;
+        }
+
+        if(matchFound2) {
+            text = matcher2.replaceAll("These are " + matcher2.group(3)+"s");
+            return text;
+        }
+
+        if(matchFound3) {
+            text = matcher3.replaceAll("This was "+matcher3.group(3).replaceFirst(".$",""));
+            return text;
+        }
+
+        if(matchFound4) {
+            text = matcher4.replaceAll("These were " + matcher4.group(3)+"s");
+            return text;
+        }
+
+        return text;
+
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String alteration3(String text) {
+
+
+        Pattern pattern1 = Pattern.compile("true");
+        Matcher matcher1 = pattern1.matcher(text);
+        boolean matchFound1 = matcher1.find();
+
+        Pattern pattern2 = Pattern.compile("True");
+        Matcher matcher2 = pattern2.matcher(text);
+        boolean matchFound2 = matcher2.find();
+
+        if(matchFound1){
+            text = matcher1.replaceAll(matcher1.group(0).replaceFirst("true","false"));
+            return text;
+
+        }
+        if (matchFound2){
+            text = matcher2.replaceAll(matcher2.group(0).replaceFirst("True","true"));
+            return text;
+
+        }
+
+        return text;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String alteration4(String text){
+
+        Pattern pattern1 = Pattern.compile("^(your) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = pattern1.matcher(text);
+        boolean matchFound1 = matcher1.find();
+
+        Pattern pattern2 = Pattern.compile("^(my) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher2 = pattern2.matcher(text);
+        boolean matchFound2 = matcher2.find();
+
+        Pattern pattern3 = Pattern.compile("^(his) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher3 = pattern3.matcher(text);
+        boolean matchFound3 = matcher3.find();
+
+        Pattern pattern4 = Pattern.compile("^(her) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher4 = pattern4.matcher(text);
+        boolean matchFound4 = matcher4.find();
+
+        if(matchFound1) {
+            text = matcher1.replaceAll("my ");
+        }
+        if(matchFound2) {
+            text = matcher2.replaceAll("your ");
+        }
+        if(matchFound3) {
+            text = matcher3.replaceAll("her ");
+        }
+        if(matchFound4) {
+            text = matcher4.replaceAll("his ");
+        }
+
+        text = StringUtils.capitalize(text);
+        return text;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String alteration5(String text){
+
+        String temp = text;
+        String[] arr = temp.split(" ", 2);
+        String firstWord = arr[0];
+
+        String addAs = "";
+
+        if(firstWord.equals("I")){
+            addAs = "am";
+        }
+        if(firstWord.equals("You")){
+            addAs = "are";
+        }
+        if(firstWord.equals("We")){
+            addAs = "are";
+        }
+        if(firstWord.equals("He")){
+            addAs = "is";
+        }
+        if(firstWord.equals("She")){
+            addAs = "is";
+        }
+        if(firstWord.equals("It")){
+            addAs = "is";
+        }
+
+
+        Pattern pattern1 = Pattern.compile("(.*) (.*ed)", Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = pattern1.matcher(text);
+        boolean matchFound1 = matcher1.find();
+
+        Pattern pattern2 = Pattern.compile("(.*) (do) (.*) (.*) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher2 = pattern2.matcher(text);
+        boolean matchFound2 = matcher2.find();
+
+        Pattern pattern3 = Pattern.compile("(.*) (does) (.*) (.*) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher3 = pattern3.matcher(text);
+        boolean matchFound3 = matcher3.find();
+
+        Pattern pattern4 = Pattern.compile("(.*) "+ addAs +" (.*) (.*) ", Pattern.CASE_INSENSITIVE);
+        Matcher matcher4 = pattern4.matcher(text);
+        boolean matchFound4 = matcher4.find();
+
+
+        if(matchFound1) {
+            text = matcher1.replaceAll(matcher1.group(1)+" do "+matcher1.group(2).replaceFirst("(..)$",""));
+            return text;
+        }
+
+
+        if(matchFound2) {
+            text = matcher2.replaceAll(matcher2.group(1) + " " + addAs + " " + matcher2.group(2).replaceFirst("do", "") + matcher2.group(3) +"ing " + matcher2.group(4) +" ");
+            return text;
+        }
+
+        if(matchFound3) {
+            text = matcher3.replaceAll(matcher3.group(1) + " " + addAs + " " + matcher3.group(2).replaceFirst("does", "") + matcher3.group(3) +"ing " + matcher3.group(4) +" ");
+            return text;
+        }
+
+        if(matchFound4) {
+            text = matcher4.replaceAll(matcher4.group(1) + addAs.replaceFirst(addAs,"") + " " + matcher4.group(2).replaceFirst("(...)$","ed ") + matcher4.group(3) +" ");
+            return text;
+        }
+
+        text = StringUtils.capitalize(text);
+        return text;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static String alteration6(String text){
+
+        Pattern pattern1 = Pattern.compile("(.*) (.*) (.*) Yes.", Pattern.CASE_INSENSITIVE);
+        Matcher matcher1 = pattern1.matcher(text);
+        boolean matchFound1 = matcher1.find();
+
+        Pattern pattern2 = Pattern.compile("(.*) (.*) (.*) No.", Pattern.CASE_INSENSITIVE);
+        Matcher matcher2 = pattern2.matcher(text);
+        boolean matchFound2 = matcher2.find();
+
+
+        if(matchFound1) {
+
+            text = matcher1.replaceAll(matcher1.group(2)+" would be "+matcher1.group(3).replaceFirst(".$","."));
+            text = StringUtils.capitalize(text);
+            return text;
+
+        }
+
+        if(matchFound2) {
+
+            text = matcher2.replaceAll(matcher2.group(2)+" "+matcher2.group(1).toLowerCase(Locale.ROOT)+" "+matcher2.group(3).replaceFirst(".$","."));
+            text = StringUtils.capitalize(text);
+            return text;
+        }
+
+        text = StringUtils.capitalize(text);
+        return text;
+    }
+
+}
